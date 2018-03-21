@@ -30,7 +30,7 @@ const c1 = {
     size: Math.random() * 100
 };
 
-const  rect = [];
+
 
 for (var i=0; i<0)
 const rect  = new Rect();

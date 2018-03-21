@@ -2,9 +2,106 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <style type="text/css">
+        .circle{
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            background: #007;
+            position: absolute;
+        }
+        .button{
+            left: 30px;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            background: green;
+            position: absolute;
+        }
+    </style>
 </head>
 <body>
-$END$
+<div class="circle">1</div>
+<div class="circle">2</div>
+<div class="circle">3</div>
+<div class="circle">4</div>
+<div class="circle">5</div>
+<div class="circle">6</div>
+<div class="circle">7</div>
+<div class="circle">8</div>
+<div class="circle">9</div>
+<div class="circle">10</div>
+<div class="circle">11</div>
+<div class="circle">12</div>
+
+<button class="button" onclick="rotateUp()">Up</button>
+<button class="button" onclick="rotateDown()">Down</button>
+
+<script type="text/javascript">
+
+    var selector = '.circle';
+    var circles = document.querySelectorAll(selector);
+    var i= 0,
+        radius = 300,
+        step = 2*Math.PI / circles.length,
+        rotate = 0;
+    console.log(circles.length);
+
+    circles.forEach(function (circle){
+        calculateCoordinates(circle, i);
+        i++;
+    });
+    /*for (i; i < circles.length; i++){
+        var circle = circles[i];
+        calculateCoordinates(circle, i);
+    }*/
+
+    var selectorButton = '.button';                      //позиціонування кнопок слайдера відносно радіуса
+    var buttons = document.querySelectorAll(selectorButton);
+    buttons[0].style.top = radius - 0.65 * radius + 'px';
+    buttons[1].style.top = radius + 0.65 * radius + 'px';
+
+    function rotateUp() {                                // зміна положення кругів на "-step" по кліку
+        rotate = rotate - step;
+        circles.forEach(function (circle){
+            calculateCoordinates(circle, i);
+            i++;
+        });
+    }
+
+    function rotateDown() {                           // зміна положення кругів на "+step" по кліку
+        rotate = rotate + step;
+        circles.forEach(function (circle){
+            calculateCoordinates(circle, i);
+            i++;
+        });
+    }
+
+    document.onwheel = function (event) {           //подія прокрутки скрола миші
+        if (event.deltaY < 0) {
+            rotateUp();
+        }
+        if (event.deltaY > 0) {
+            rotateDown();
+        }
+    }
+
+    function calculateCoordinates(circle, i) {     // розподіл кружків по півколу з кроком "step"
+        var y = radius * Math.sin(rotate + step * i);
+        var x = radius * Math.cos(rotate + step * i);
+        if(Math.round(x)>0 ) {
+            circle.style.top = radius + Math.round(y) + 'px';
+            circle.style.left = Math.round(x) + 'px';}
+        else {circle.style.left = - radius + 'px';}
+    }
+
+    /*function calculateCoordinates(circle, i) {
+        var y = radius * Math.sin(rotate + step * i);
+        var x = radius * Math.cos(rotate + step * i);
+        circle.style.top = radius + Math.round(y) + 'px';
+        circle.style.left = radius + Math.round(x) + 'px';
+    }*/
+</script>
 </body>
 </html>
